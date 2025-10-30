@@ -5,6 +5,7 @@ A full-stack e-commerce application built with MongoDB, Express, React, and Node
 ## 🛠️ Tech Stack
 
 **Frontend:**
+
 - React 18 with TypeScript
 - Material-UI (MUI) v5
 - React Router
@@ -12,6 +13,7 @@ A full-stack e-commerce application built with MongoDB, Express, React, and Node
 - Vite
 
 **Backend:**
+
 - Node.js & Express
 - MongoDB with Mongoose
 - JWT Authentication
@@ -35,6 +37,7 @@ A full-stack e-commerce application built with MongoDB, Express, React, and Node
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js (v16 or higher)
 - MongoDB installed and running locally
 - npm or yarn
@@ -42,12 +45,14 @@ A full-stack e-commerce application built with MongoDB, Express, React, and Node
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/girishklebca/mern-ecommerce.git
    cd mern-ecommerce
    ```
 
 2. **Install Backend Dependencies**
+
    ```bash
    cd Backend
    npm install
@@ -62,15 +67,18 @@ A full-stack e-commerce application built with MongoDB, Express, React, and Node
 ### Running the Application
 
 1. **Start MongoDB** (if not already running)
+
    ```bash
    mongod
    ```
 
 2. **Start Backend Server**
+
    ```bash
    cd Backend
    npm run dev
    ```
+
    Backend runs on `http://localhost:3000`
 
 3. **Start Frontend Development Server**
@@ -93,12 +101,14 @@ A full-stack e-commerce application built with MongoDB, Express, React, and Node
 ## 🔧 API Endpoints
 
 ### Products
+
 - `GET /product/getProducts` - Get all products
 - `POST /product/create` - Create new product
 - `POST /product/update` - Update product
 - `DELETE /product/delete` - Delete product
 
 ### Users
+
 - `POST /user/register` - Register new user
 - `POST /user/login` - User login
 
@@ -113,6 +123,7 @@ A full-stack e-commerce application built with MongoDB, Express, React, and Node
 ## 📦 Dependencies
 
 ### Backend
+
 - express
 - mongoose
 - cors
@@ -120,6 +131,7 @@ A full-stack e-commerce application built with MongoDB, Express, React, and Node
 - nodemon (dev)
 
 ### Frontend
+
 - @mui/material
 - @emotion/react
 - react-router-dom
@@ -136,6 +148,7 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 👤 Author
 
 **Girish**
+
 - GitHub: [@girishklebca](https://github.com/girishklebca)
 
 ---
