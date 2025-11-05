@@ -6,7 +6,6 @@ import CardActionArea from "@mui/material/CardActionArea";
 import data from "../data/data.ts";
 import CircularProgress from "@mui/material/CircularProgress";
 import {
-  Avatar,
   Box,
   Modal,
   Backdrop,
