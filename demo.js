@@ -12,10 +12,14 @@
 // const newTitle = title[0].toUpperCase() + title.substring(1, title.length);
 // console.log(newTitle);
 
- const mongoData = async () => {
-    const res = await fetch("http://localhost:3000/product");
-    const data = await res.json();
-    return await data;
-  };
-  const dataOfMongoDb = await mongoData();
-  console.log(dataOfMongoDb);
+// const mongoData = async () => {
+//   const res = await fetch("http://localhost:3000/product");
+//   const data = await res.json();
+//   return await data;
+// };
+// const dataOfMongoDb = await mongoData();
+// console.log(dataOfMongoDb);
+
+let a = "Sumanth";
+a = 10;
+console.log(a);
