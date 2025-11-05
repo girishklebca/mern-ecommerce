@@ -132,29 +132,32 @@ const ProductForm = () => {
   };
 
   return (
-    <div className="h-[100vh] flex justify-center items-center bg-[#7DD3FC]">
+    <div className="min-h-screen flex justify-center items-center bg-[#7DD3FC] p-4">
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-evenly",
           alignItems: "center",
-          //   border: "0px solid black",
-          height: "600px",
-          width: "500px",
-          paddingTop: "20px",
-          paddingX: "20px",
+          minHeight: { xs: "auto", sm: "550px", md: "600px" },
+          width: { xs: "100%", sm: "90%", md: "500px" },
+          maxWidth: "500px",
+          paddingTop: { xs: "15px", sm: "20px" },
+          paddingX: { xs: "15px", sm: "20px" },
+          paddingBottom: { xs: "15px", sm: "20px" },
           bgcolor: "white",
+          borderRadius: 2,
         }}
       >
         <Typography
           variant="h5"
           component="h3"
           sx={{
-            // fontFamily:"sans-serif",
             width: "100%",
             textAlign: "center",
             padding: "5px",
+            fontSize: { xs: "1.25rem", sm: "1.5rem" },
+            mb: { xs: 2, sm: 0 },
           }}
         >
           Create A New Product
@@ -169,7 +172,10 @@ const ProductForm = () => {
           name="title"
           value={formData.title}
           onChange={handleChange}
-          sx={textfieldStyling}
+          sx={{
+            ...textfieldStyling,
+            mb: { xs: 2, sm: 0 },
+          }}
         />
         <TextField
           id="outlined-basic"
@@ -180,10 +186,21 @@ const ProductForm = () => {
           name="company"
           value={formData.company}
           onChange={handleChange}
-          sx={textfieldStyling}
+          sx={{
+            ...textfieldStyling,
+            mb: { xs: 2, sm: 0 },
+          }}
         />
 
-        <Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            gap: { xs: 2, sm: 0 },
+            width: "100%",
+            justifyContent: "space-between",
+          }}
+        >
           <TextField
             id="outlined-basic"
             label="Prev Price"
@@ -194,7 +211,7 @@ const ProductForm = () => {
             onChange={handleChange}
             sx={{
               ...textfieldStyling,
-              marginRight: "45px",
+              width: { xs: "100%", sm: "48%" },
             }}
           />
           <TextField
@@ -205,10 +222,21 @@ const ProductForm = () => {
             name="newPrice"
             value={formData.newPrice}
             onChange={handleChange}
-            sx={textfieldStyling}
+            sx={{
+              ...textfieldStyling,
+              width: { xs: "100%", sm: "48%" },
+            }}
           />
         </Box>
-        <Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            gap: { xs: 2, sm: 0 },
+            width: "100%",
+            justifyContent: "space-between",
+          }}
+        >
           <TextField
             id="outlined-basic"
             label="Color"
@@ -219,7 +247,7 @@ const ProductForm = () => {
             onChange={handleChange}
             sx={{
               ...textfieldStyling,
-              marginRight: "45px",
+              width: { xs: "100%", sm: "48%" },
             }}
           />
           <TextField
@@ -230,7 +258,10 @@ const ProductForm = () => {
             name="category"
             value={formData.category}
             onChange={handleChange}
-            sx={textfieldStyling}
+            sx={{
+              ...textfieldStyling,
+              width: { xs: "100%", sm: "48%" },
+            }}
           />
         </Box>
 
@@ -244,13 +275,21 @@ const ProductForm = () => {
           name="img"
           value={formData.img}
           onChange={handleChange}
-          sx={textfieldStyling}
+          sx={{
+            ...textfieldStyling,
+            mb: { xs: 2, sm: 0 },
+          }}
         />
 
         <Button
           variant="contained"
           onClick={handleSubmit}
-          sx={{ paddingX:"40px", paddingY:"10px" }}
+          sx={{
+            paddingX: { xs: "30px", sm: "40px" },
+            paddingY: { xs: "8px", sm: "10px" },
+            fontSize: { xs: "0.875rem", sm: "1rem" },
+            mt: { xs: 2, sm: 0 },
+          }}
         >
           Create Product
         </Button>

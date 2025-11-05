@@ -10,18 +10,22 @@ import Login2 from "./components/Login";
 import ActionAreaCard from "./components/Products";
 import Formdata from "./xtraComponents/Formdata";
 import ProductForm from "./components/ProductForm";
+import Demo from "./xtraComponents/Demo";
 
 const App = () => {
   return (
     <>
-       <Nav /> 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login2 />} />
-        <Route path="/products" element={<ActionAreaCard />} />
-        <Route path="/update" element={<Formdata />} />
-        <Route path="/product/create" element={<ProductForm />} />
-      </Routes>
+      <Nav />
+      <div className="pt-[8vh]">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login2 />} />
+          <Route path="/products" element={<ActionAreaCard />} />
+          <Route path="/update" element={<Formdata />} />
+          <Route path="/product/create" element={<ProductForm />} />
+        </Routes>
+      </div>
+      {/* <Demo/> */}
     </>
   );
 };

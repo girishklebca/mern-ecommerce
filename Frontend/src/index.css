@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+/* Global responsive styles - applied after Tailwind */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Prevent horizontal overflow */
+img {
+  max-width: 100%;
+  height: auto;
+}

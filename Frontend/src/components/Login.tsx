@@ -167,7 +167,7 @@ export default function Login2() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center pt-20 p-2"
+      className="min-h-screen flex items-center justify-center py-8 px-4"
       style={{
         background: "#38BDF8",
         backgroundAttachment: "fixed",
@@ -178,9 +178,9 @@ export default function Login2() {
         sx={{
           borderRadius: 4,
           overflow: "hidden",
-          maxWidth: 500,
-          maxHeight: "90vh",
+          maxWidth: { xs: "100%", sm: 500 },
           width: "100%",
+          maxHeight: "90vh",
           background: "#38BDF8",
           boxShadow: "0 25px 50px rgba(102, 126, 234, 0.3)",
         }}
@@ -191,7 +191,7 @@ export default function Login2() {
             background: "#0284C7",
             color: "white",
             textAlign: "center",
-            py: 2,
+            py: { xs: 1.5, sm: 2 },
             px: 2,
           }}
         >
@@ -200,10 +200,17 @@ export default function Login2() {
             component="h1"
             fontWeight="bold"
             gutterBottom
+            sx={{ fontSize: { xs: "1.25rem", sm: "1.5rem" } }}
           >
             {isSignUp ? "Create Account" : "Welcome Back"}
           </Typography>
-          <Typography variant="body2" sx={{ opacity: 0.9 }}>
+          <Typography
+            variant="body2"
+            sx={{
+              opacity: 0.9,
+              fontSize: { xs: "0.875rem", sm: "1rem" },
+            }}
+          >
             {isSignUp
               ? "Sign up to get started with your account"
               : "Sign in to continue to your account"}
@@ -214,7 +221,7 @@ export default function Login2() {
         <Box
           sx={{
             backgroundColor: "white",
-            p: 3,
+            p: { xs: 2, sm: 3 },
             overflowY: "auto",
           }}
         >

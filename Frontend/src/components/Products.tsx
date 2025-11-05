@@ -1,6 +1,5 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
@@ -49,7 +48,8 @@ export default function ActionAreaCard() {
   const [products, setProducts] = React.useState<Product[]>([]); // State for MongoDB products
   const [loading, setLoading] = React.useState(true);
   const [searchQuery, setSearchQuery] = React.useState<string | null>(null); // State for search filter
-  const [inputValue, setInputValue] = React.useState(""); // State for typed input
+
+  const [cartCounter, setCartCounter] = React.useState(0);
 
   const handleCardClick = (product: Product) => {
     setSelectedProduct(product);
@@ -111,23 +111,35 @@ export default function ActionAreaCard() {
         alignItems: "center",
         justifyContent: "start",
         flexWrap: "wrap",
-        gap: 3, // Reduced from 5
-        px: 8, // Reduced from 12
-        py: 12, // Reduced from 15
-
+        gap: { xs: 2, sm: 2.5, md: 3 },
+        px: { xs: 2, sm: 4, md: 6, lg: 8 },
+        py: { xs: 8, sm: 10, md: 12 },
         background: "#7DD3FC",
+        minHeight: "100vh",
       }}
     >
       <Box
-        sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}
+        sx={{
+          width: "100%",
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          justifyContent: "space-between",
+          gap: { xs: 2, md: 0 },
+          mb: { xs: 2, sm: 0 },
+        }}
       >
         <Autocomplete
           disablePortal
           options={searchArray}
-          sx={{ width: 600, bgcolor: "white" }}
+          sx={{
+            width: { xs: "100%", sm: "100%", md: 600 },
+            height: "100%",
+            borderRadius: "5px",
+            bgcolor: "white",
+          }}
           value={searchQuery}
           onChange={(event, newValue) => {
-            setSearchQuery(newValue); // Update search query when user selects
+            setSearchQuery(newValue);
           }}
           renderInput={(params) => (
             <TextField
@@ -150,8 +162,13 @@ export default function ActionAreaCard() {
 
         <Button
           variant="contained"
-          // sx={{ marginLeft: "87%", padding: "20px" }}
           onClick={() => navigate("/product/create")}
+          sx={{
+            fontSize: { xs: "0.875rem", sm: "1rem" },
+            py: { xs: 1.5, sm: 2 },
+            px: { xs: 2, sm: 3 },
+            width: { xs: "100%", sm: "auto" },
+          }}
         >
           <FaPlus /> &nbsp;Create Product{" "}
         </Button>
@@ -169,7 +186,7 @@ export default function ActionAreaCard() {
             key={index}
             sx={{
               width: "100%",
-              height: 240, // Reduced from 300
+              height: { xs: 200, sm: 220, md: 240 },
               display: "flex",
               flexDirection: "column",
               padding: 0,
@@ -187,40 +204,40 @@ export default function ActionAreaCard() {
             <CardActionArea
               sx={{
                 display: "flex",
-                // flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
                 height: "100%",
-                // border: "2px solid red",
               }}
             >
               <CardMedia
                 component="img"
                 sx={{
-                  maxWidth: 240, // Reduced from 300
-                  height: 160, // Reduced from 200
-                  objectFit: "contain", // Shows full image without cropping
-                  objectPosition: "center", // Centers the image
+                  maxWidth: { xs: 150, sm: 200, md: 250, lg: 300 },
+                  height: { xs: 150, sm: 180, md: 200 },
+                  objectFit: "contain",
+                  objectPosition: "center",
                   backgroundColor: "#fff",
-                  mr: 16, // Reduced from 20
-                  ml: 8, // Reduced from 10
+                  my: { xs: 2, sm: 5, md: 10 },
+                  mx: { xs: 1, sm: 2 },
                 }}
                 image={item.img}
                 alt={item.title}
               />
               {/* Best Sellers */}
-              {item.company === "Nike" && (
-                <div className="absolute left-5 top-5">
-                  <Chip label="Best Seller" color="primary" />
+              {item.company === "McLaren" && (
+                <div className="absolute left-2 top-2 md:left-5 md:top-5">
+                  <Chip label="Best Seller" color="primary" size="small" />
                 </div>
               )}
-              <div className="h-full w-full -mr-8 p-4 flex flex-col justify-center gap-3 bg-gray-100">
+              <div className="h-full w-full -mr-8 p-2 md:p-4 flex flex-col justify-center gap-1 md:gap-3 bg-gray-100">
                 <div>
                   <Typography
                     gutterBottom
                     variant="h6"
                     component="div"
-                    sx={{ fontSize: "1.1rem" }}
+                    sx={{
+                      fontSize: { xs: "0.875rem", sm: "1rem", md: "1.1rem" },
+                    }}
                   >
                     {item.title}
                   </Typography>
@@ -230,48 +247,51 @@ export default function ActionAreaCard() {
                       color: "text.secondary",
                       width: "80%",
                       textAlign: "justify",
-                      fontSize: "0.75rem", // Smaller text
+                      fontSize: { xs: "0.625rem", sm: "0.7rem", md: "0.75rem" },
+                      display: { xs: "none", sm: "block" },
                     }}
                   >
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                     Magni, iure ipsam amet inventore dolorem neque quam pariatur
                     expedita optio veritatis harum quasi, repellendus
-                    exercitationem at ad, ullam aperiam aliquam unde.
+                    exercitationem at ad, ullam aperiam aliquam undo.
                   </Typography>
                 </div>
                 <div>
                   <Chip
-                    avatar={
-                      <Avatar sx={{ height: "14px", width: "14px" }}>
-                        {item.company.charAt(0).toUpperCase()}
-                      </Avatar>
-                    }
                     label={item.company}
                     variant="filled"
                     sx={{
-                      fontSize: "14px", // Reduced from 18px
+                      fontSize: { xs: "11px", sm: "12px", md: "14px" },
                       backgroundColor: "black",
                       color: "white",
-                      height: 28, // Smaller chip
+                      height: { xs: 22, sm: 24, md: 28 },
                     }}
                   />
                 </div>
 
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                   <div className="flex justify-center items-center gap-2">
-                    <p className="text-lg font-bold">${item.newPrice}.00 </p>
-                    <p className="line-through text-sm">${item.prevPrice} </p>
+                    <p className="text-sm md:text-lg font-bold">
+                      ${item.newPrice}.00{" "}
+                    </p>
+                    <p className="line-through text-xs md:text-sm">
+                      ${item.prevPrice}{" "}
+                    </p>
                   </div>
-                  <div className="mr-10">
+                  <div className="flex gap-1 md:gap-2 md:mr-10">
                     <Button
                       variant="contained"
                       size="small"
                       sx={{
                         backgroundColor: "#0284c7",
-                        mr: 3,
-                        p: 1.5,
-                        px: 3,
-                        fontSize: "0.75rem",
+                        p: { xs: 0.75, sm: 1, md: 1.5 },
+                        px: { xs: 1.5, sm: 2, md: 3 },
+                        fontSize: {
+                          xs: "0.625rem",
+                          sm: "0.7rem",
+                          md: "0.75rem",
+                        },
                       }}
                     >
                       Buy Now
@@ -281,16 +301,24 @@ export default function ActionAreaCard() {
                       size="small"
                       sx={{
                         backgroundColor: "#000",
-                        p: 1.5,
-                        fontSize: "0.75rem",
+                        p: { xs: 0.75, sm: 1, md: 1.5 },
+                        fontSize: {
+                          xs: "0.625rem",
+                          sm: "0.7rem",
+                          md: "0.75rem",
+                        },
+                        minWidth: { xs: "auto", sm: "auto" },
                       }}
                     >
-                      <IoMdCart className="text-xl" /> &nbsp; Add to Cart
+                      <IoMdCart className="text-sm md:text-xl" />
+                      <span className="hidden sm:inline">
+                        &nbsp; Add to Cart
+                      </span>
                     </Button>
                   </div>
                 </div>
 
-                <div className="absolute top-5 right-5 text-xl cursor-pointer">
+                <div className="absolute top-2 right-2 md:top-5 md:right-5 text-base md:text-xl cursor-pointer">
                   <HiDotsVertical />
                 </div>
               </div>
@@ -314,18 +342,18 @@ export default function ActionAreaCard() {
         <Fade in={modalOpen}>
           <Box
             sx={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100vw",
-              height: "100vh",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "90vw",
+              height: "90vh",
               bgcolor: "background.paper",
-              p: 0,
               outline: "none",
-              overflow: "auto",
+              overflow: "hidden",
               zIndex: 1300,
-              transform: "scale(0.8)",
-              transformOrigin: "center center",
+              borderRadius: 2,
+              boxShadow: 24,
             }}
           >
             {selectedProduct && (
@@ -334,7 +362,7 @@ export default function ActionAreaCard() {
                 <IconButton
                   onClick={handleCloseModal}
                   sx={{
-                    position: "fixed",
+                    position: "absolute",
                     right: { xs: 16, sm: 20, md: 24 },
                     top: { xs: 16, sm: 20, md: 24 },
                     backgroundColor: "rgba(0, 0, 0, 0.1)",
@@ -354,31 +382,28 @@ export default function ActionAreaCard() {
                   sx={{
                     display: "flex",
                     flexDirection: { xs: "column", lg: "row" },
-                    minHeight: "100vh",
-                    maxWidth: { xs: "100%", sm: 1200, lg: 1400, xl: 1600 },
-                    margin: "0 auto",
-                    pt: { xs: 6, sm: 4, md: 3 },
-                    pb: { xs: 2, sm: 3, md: 4 },
-                    px: { xs: 1, sm: 2 },
+                    height: "100%",
+                    width: "100%",
+                    overflow: "hidden",
                   }}
                 >
                   {/* Product Image Section */}
                   <Box
                     sx={{
                       flex: 1,
-                      p: { xs: 2, sm: 3, md: 4, lg: 5 },
+                      p: { xs: 2, sm: 3, md: 4 },
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       backgroundColor: "#f8f9fa",
-                      minHeight: { xs: "40vh", sm: "50vh", lg: "100vh" },
+                      height: "100%",
                     }}
                   >
                     <CardMedia
                       component="img"
                       sx={{
-                        maxWidth: "100%",
-                        maxHeight: { xs: 300, sm: 400, md: 500, lg: 550 },
+                        maxWidth: "90%",
+                        maxHeight: "80%",
                         width: "auto",
                         height: "auto",
                         objectFit: "contain",
@@ -394,11 +419,11 @@ export default function ActionAreaCard() {
                   <Box
                     sx={{
                       flex: 1,
-                      p: { xs: 2, sm: 3, md: 4, lg: 5 },
+                      p: { xs: 2, sm: 3, md: 4 },
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "center",
-                      maxWidth: { xs: "100%", lg: 550, xl: 650 },
+                      height: "100%",
                       overflow: "auto",
                     }}
                   >
@@ -432,18 +457,17 @@ export default function ActionAreaCard() {
                     >
                       {selectedProduct.title}
                     </Typography>
-                    <Box sx={{ position: "absolute", top: 115, right: 50 }}>
-                      <HiDotsVertical className="text-[24px]" />
-                    </Box>
 
                     {/* Company Badge */}
-                    <Box sx={{ mb: 3 }}>
+                    <Box
+                      sx={{
+                        mb: 2,
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
                       <Chip
-                        avatar={
-                          <Avatar sx={{ height: "24px", width: "24px" }}>
-                            {selectedProduct.company.charAt(0).toUpperCase()}
-                          </Avatar>
-                        }
                         label={selectedProduct.company}
                         variant="filled"
                         sx={{
@@ -453,6 +477,9 @@ export default function ActionAreaCard() {
                           height: 36,
                         }}
                       />
+                      <Box sx={{ mr: "10px" }}>
+                        <HiDotsVertical className="text-[24px]" />
+                      </Box>
                     </Box>
 
                     {/* Product Description */}
@@ -461,8 +488,8 @@ export default function ActionAreaCard() {
                       sx={{
                         mb: { xs: 2, sm: 2.5, md: 3 },
                         color: "text.secondary",
-                        lineHeight: 1.6,
-                        fontSize: { xs: "0.875rem", sm: "0.95rem", md: "1rem" },
+                        lineHeight: 1.2,
+                        fontSize: { xs: "0.5rem", sm: "0.95rem", md: "0.5" },
                       }}
                     >
                       Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -534,32 +561,39 @@ export default function ActionAreaCard() {
                               : 123}
                           </Typography>
                         </Box>
+                        <Box
+                          sx={{
+                            mb: 3,
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Typography variant="body2" color="text.secondary">
+                            Customer Rating:
+                          </Typography>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                            }}
+                          >
+                            <Rating
+                              value={4.5}
+                              precision={0.5}
+                              readOnly
+                              size="small"
+                            />
+                            <Typography variant="body2" color="text.secondary">
+                              (4.5/5)
+                            </Typography>
+                          </Box>
+                        </Box>
                       </Box>
                     </Box>
 
                     {/* Customer Rating */}
-                    <Box sx={{ mb: 3 }}>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ mb: 1 }}
-                      >
-                        Customer Rating:
-                      </Typography>
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 1 }}
-                      >
-                        <Rating
-                          value={4.5}
-                          precision={0.5}
-                          readOnly
-                          size="small"
-                        />
-                        <Typography variant="body2" color="text.secondary">
-                          (4.5/5)
-                        </Typography>
-                      </Box>
-                    </Box>
 
                     {/* Price Section */}
                     <Box
@@ -655,22 +689,64 @@ export default function ActionAreaCard() {
                       >
                         Buy Now
                       </Button>
-                      <Button
-                        variant="contained"
-                        size="large"
-                        startIcon={<IoMdCart />}
-                        sx={{
-                          backgroundColor: "#000",
-                          py: { xs: 1.2, sm: 1.4, md: 1.5 },
-                          fontSize: { xs: "14px", sm: "15px", md: "16px" },
-                          fontWeight: "bold",
-                          "&:hover": {
-                            backgroundColor: "#333",
-                          },
-                        }}
-                      >
-                        Add to Cart
-                      </Button>
+                      {cartCounter == 0 && (
+                        <Button
+                          variant="contained"
+                          size="large"
+                          startIcon={<IoMdCart />}
+                          sx={{
+                            backgroundColor: "#000",
+                            py: { xs: 1.2, sm: 1.4, md: 1.5 },
+                            fontSize: { xs: "14px", sm: "15px", md: "16px" },
+                            fontWeight: "bold",
+                            "&:hover": {
+                              backgroundColor: "#333",
+                            },
+                          }}
+                          onClick={() => setCartCounter(1)}
+                        >
+                          Add to Cart
+                        </Button>
+                      )}
+                      {cartCounter > 0 && (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Button
+                            variant="contained"
+                            onClick={() => setCartCounter(cartCounter - 1)}
+                            sx={{
+                              borderRadius: "50%",
+                              minWidth: "50px",
+                              width: "50px",
+                              height: "50px",
+                              padding: 0,
+                            }}
+                          >
+                            -
+                          </Button>
+                          <Typography variant="h5" sx={{ mx: "30px" }}>
+                            {cartCounter}{" "}
+                          </Typography>
+                          <Button
+                            variant="contained"
+                            onClick={() => setCartCounter(cartCounter + 1)}
+                            sx={{
+                              borderRadius: "50%",
+                              minWidth: "50px",
+                              width: "50px",
+                              height: "50px",
+                              padding: 0,
+                            }}
+                          >
+                            +
+                          </Button>
+                        </Box>
+                      )}
                     </Box>
                   </Box>
                 </Box>
