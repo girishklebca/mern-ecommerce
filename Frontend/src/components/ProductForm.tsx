@@ -6,9 +6,13 @@ import {
   Typography,
   Snackbar,
   Alert,
+  IconButton,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 import axios, { AxiosError } from "axios";
+import { IoMdClose } from "react-icons/io";
+import { type } from './../store/index';
 
 const ProductForm = () => {
   const [open, setOpen] = useState(false);
@@ -30,9 +34,23 @@ const ProductForm = () => {
     img: "",
   });
 
+  const navigate = useNavigate();
+
   // All-in-one handleChange function for ALL text inputs
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleCancel = () => {
+    setFormData({
+      title: "",
+      company: "",
+      prevPrice: "",
+      newPrice: "",
+      color: "",
+      category: "",
+      img: "",
+    });
   };
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -147,8 +165,27 @@ const ProductForm = () => {
           paddingBottom: { xs: "15px", sm: "20px" },
           bgcolor: "white",
           borderRadius: 2,
+          position: "relative",
         }}
       >
+        <IconButton
+          onClick={() => navigate("/products")}
+          sx={{
+            position: "absolute",
+            right: 10,
+            top: 10,
+            backgroundColor: "rgba(0, 0, 0, 0.1)",
+            zIndex: 1301,
+            width: { xs: 40, sm: 44, md: 40 },
+            height: { xs: 40, sm: 44, md: 40 },
+            "&:hover": {
+              backgroundColor: "rgba(0, 0, 0, 0.2)",
+            },
+          }}
+        >
+          <IoMdClose style={{ fontSize: "20px" }} />
+        </IconButton>
+
         <Typography
           variant="h5"
           component="h3"
@@ -203,6 +240,7 @@ const ProductForm = () => {
         >
           <TextField
             id="outlined-basic"
+            type="number"
             label="Prev Price"
             variant="outlined"
             placeholder="Enter the PrevPrice"
@@ -216,6 +254,7 @@ const ProductForm = () => {
           />
           <TextField
             id="outlined-basic"
+            type="number"
             label="New Price"
             variant="outlined"
             placeholder="Enter the New Price"
@@ -281,18 +320,33 @@ const ProductForm = () => {
           }}
         />
 
-        <Button
-          variant="contained"
-          onClick={handleSubmit}
-          sx={{
-            paddingX: { xs: "30px", sm: "40px" },
-            paddingY: { xs: "8px", sm: "10px" },
-            fontSize: { xs: "0.875rem", sm: "1rem" },
-            mt: { xs: 2, sm: 0 },
-          }}
-        >
-          Create Product
-        </Button>
+        <div className="w-full flex justify-between">
+          <Button
+            variant="contained"
+            onClick={handleCancel}
+            sx={{
+              paddingX: { xs: "18px", sm: "16px", lg: "20px" },
+              paddingY: { xs: "8px", sm: "10px" },
+              fontSize: { xs: "0.875rem", sm: "1rem" },
+              mt: { xs: 2, sm: 0 },
+              bgcolor: "#d32f2f",
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+            sx={{
+              paddingX: { xs: "30px", sm: "40px" },
+              paddingY: { xs: "8px", sm: "10px" },
+              fontSize: { xs: "0.875rem", sm: "1rem" },
+              mt: { xs: 2, sm: 0 },
+            }}
+          >
+            Create Product
+          </Button>
+        </div>
       </Box>
       <Snackbar
         open={open}

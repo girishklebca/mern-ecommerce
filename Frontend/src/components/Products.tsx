@@ -21,7 +21,12 @@ import { HiDotsVertical } from "react-icons/hi";
 import { FaHeart, FaShare } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../store";
+import { addItem as addCartItem } from "../store/cartSlice";
+import type { Product as CartProductType } from "../store/cartSlice";
 import SearchIcon from "@mui/icons-material/Search";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -48,7 +53,21 @@ export default function ActionAreaCard() {
   const [loading, setLoading] = React.useState(true);
   const [searchQuery, setSearchQuery] = React.useState<string | null>(null); // State for search filter
 
-  const [cartCounter, setCartCounter] = React.useState(0);
+  const dispatch = useDispatch();
+  const cartItems = useSelector((s: RootState) => s.cart.items);
+
+  // helper to derive an id for a product (some products may not have an `id` field)
+  const getProductId = (p: Product | null | undefined) => {
+    if (!p) return undefined;
+    const maybe = p as Product & { id?: string | number };
+    return String(maybe.id ?? maybe.title);
+  };
+
+  // Check if selected product is in cart
+  const selectedProductId = getProductId(selectedProduct);
+  const isSelectedInCart = selectedProductId
+    ? cartItems.some((ci) => String(ci.id) === selectedProductId)
+    : false;
 
   const handleCardClick = (product: Product) => {
     setSelectedProduct(product);
@@ -58,6 +77,12 @@ export default function ActionAreaCard() {
   const handleCloseModal = () => {
     setModalOpen(false);
     setSelectedProduct(null);
+  };
+
+  const handleAddToCart = () => {
+    if (selectedProduct) {
+      dispatch(addCartItem(selectedProduct as unknown as CartProductType));
+    }
   };
 
   // Fetch products from MongoDB when component mounts
@@ -131,7 +156,7 @@ export default function ActionAreaCard() {
           disablePortal
           options={searchArray}
           sx={{
-            width: { xs: "100%", sm: "100%", md: 600 },
+            width: { xs: "100%", sm: "100%", md: 600, lg:650},
             height: "100%",
             borderRadius: "5px",
             bgcolor: "white",
@@ -159,6 +184,26 @@ export default function ActionAreaCard() {
           )}
         />
 
+        <Button
+          variant="contained"
+          onClick={() => navigate("/product/cart")}
+          sx={{
+            minWidth: 0,
+            width: { xs: "44px", sm: "56px" },
+            height: { xs: "44px", sm: "56px" },
+            padding: 0,
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "fixed",
+            bottom: { xs: "40px", sm: "50px" },
+            right: { xs: "20px", sm: "70px" },
+            zIndex: 1300,
+          }}
+        >
+          <ShoppingCartIcon sx={{ fontSize: { xs: 20, sm: 28 } }} />
+        </Button>
         <Button
           variant="contained"
           onClick={() => navigate("/product/create")}
@@ -194,7 +239,7 @@ export default function ActionAreaCard() {
               transformOrigin: "center center",
 
               "&:hover": {
-                transform: "scale(1.05)",
+                transform: "scale(1.02)",
               },
             }}
             variant="outlined"
@@ -211,7 +256,7 @@ export default function ActionAreaCard() {
               <CardMedia
                 component="img"
                 sx={{
-                  maxWidth: { xs: 150, sm: 200, md: 250, lg: 300 },
+                  maxWidth: { xs: 150, sm: 200, md: 250, lg: 450 },
                   height: { xs: 150, sm: 180, md: 200 },
                   objectFit: "contain",
                   objectPosition: "center",
@@ -262,6 +307,7 @@ export default function ActionAreaCard() {
                     variant="filled"
                     sx={{
                       fontSize: { xs: "11px", sm: "12px", md: "14px" },
+                      p: "15px",
                       backgroundColor: "black",
                       color: "white",
                       height: { xs: 22, sm: 24, md: 28 },
@@ -280,10 +326,10 @@ export default function ActionAreaCard() {
                   </div>
                   <div className="flex gap-1 md:gap-2 md:mr-10">
                     <Button
-                      variant="contained"
+                      variant="outlined"
                       size="small"
                       sx={{
-                        backgroundColor: "#0284c7",
+                        // backgroundColor: "#0284c7",
                         p: { xs: 0.75, sm: 1, md: 1.5 },
                         px: { xs: 1.5, sm: 2, md: 3 },
                         fontSize: {
@@ -291,11 +337,13 @@ export default function ActionAreaCard() {
                           sm: "0.7rem",
                           md: "0.75rem",
                         },
+                        color: "black",
+                        borderColor: "black",
                       }}
                     >
-                      Buy Now
+                      Click to Buy Now!
                     </Button>
-                    <Button
+                    {/* <Button
                       variant="contained"
                       size="small"
                       sx={{
@@ -313,7 +361,7 @@ export default function ActionAreaCard() {
                       <span className="hidden sm:inline">
                         &nbsp; Add to Cart
                       </span>
-                    </Button>
+                    </Button> */}
                   </div>
                 </div>
 
@@ -688,7 +736,9 @@ export default function ActionAreaCard() {
                       >
                         Buy Now
                       </Button>
-                      {cartCounter == 0 && (
+
+                      {/* Add to Cart Button */}
+                      {!isSelectedInCart && (
                         <Button
                           variant="contained"
                           size="large"
@@ -696,55 +746,49 @@ export default function ActionAreaCard() {
                           sx={{
                             backgroundColor: "#000",
                             py: { xs: 1.2, sm: 1.4, md: 1.5 },
-                            fontSize: { xs: "14px", sm: "15px", md: "16px" },
+                            fontSize: {
+                              xs: "14px",
+                              sm: "15px",
+                              md: "16px",
+                            },
                             fontWeight: "bold",
                             "&:hover": {
                               backgroundColor: "#333",
                             },
                           }}
-                          onClick={() => setCartCounter(1)}
+                          onClick={handleAddToCart}
                         >
                           Add to Cart
                         </Button>
                       )}
-                      {cartCounter > 0 && (
-                        <Box
+
+                      {/* Go to Cart Button */}
+                      {isSelectedInCart && (
+                        <Button
+                          variant="contained"
+                          size="large"
+                          startIcon={<IoMdCart />}
                           sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
+                            backgroundColor: "#fff",
+                            color: "#000",
+                            border: "2px solid black",
+                            py: { xs: 1.2, sm: 1.4, md: 1.5 },
+                            fontSize: {
+                              xs: "14px",
+                              sm: "15px",
+                              md: "16px",
+                            },
+                            fontWeight: "bold",
+                            "&:hover": {
+                              backgroundColor: "rgba(100,100,100,0.5)",
+                              borderColor: "white",
+                              color: "#fff",
+                            },
                           }}
+                          onClick={() => navigate("/product/cart")}
                         >
-                          <Button
-                            variant="contained"
-                            onClick={() => setCartCounter(cartCounter - 1)}
-                            sx={{
-                              borderRadius: "50%",
-                              minWidth: "50px",
-                              width: "50px",
-                              height: "50px",
-                              padding: 0,
-                            }}
-                          >
-                            -
-                          </Button>
-                          <Typography variant="h5" sx={{ mx: "30px" }}>
-                            {cartCounter}{" "}
-                          </Typography>
-                          <Button
-                            variant="contained"
-                            onClick={() => setCartCounter(cartCounter + 1)}
-                            sx={{
-                              borderRadius: "50%",
-                              minWidth: "50px",
-                              width: "50px",
-                              height: "50px",
-                              padding: 0,
-                            }}
-                          >
-                            +
-                          </Button>
-                        </Box>
+                          Go to Cart
+                        </Button>
                       )}
                     </Box>
                   </Box>

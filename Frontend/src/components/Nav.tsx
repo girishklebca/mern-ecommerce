@@ -3,39 +3,35 @@ import { Link, useLocation } from "react-router-dom";
 
 const Nav = () => {
   const location = useLocation();
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
 
   const tabs = ["Home", "Products", "Login", "About Us", "Contact Us"];
   const routes = ["/", "/products", "/login", "/aboutus", "/contactus"];
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const currentScrollY = window.scrollY;
 
-      if (currentScrollY < 10) {
-        setIsVisible(true);
-      } else if (currentScrollY > lastScrollY) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
+  //     if (currentScrollY < 10) {
+  //       setIsVisible(true);
+  //     } else if (currentScrollY > lastScrollY) {
+  //       setIsVisible(false);
+  //     } else {
+  //       setIsVisible(true);
+  //     }
 
-      setLastScrollY(currentScrollY);
-    };
+  //     setLastScrollY(currentScrollY);
+  //   };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+  //   window.addEventListener("scroll", handleScroll, { passive: true });
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [lastScrollY]);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, [lastScrollY]);
 
   return (
     <div
-      className={`h-[8vh] w-full flex items-center justify-evenly bg-sky-600 fixed z-[999] transition-transform duration-300 ${
-        isVisible ? "translate-y-0" : "-translate-y-full"
-      }`}
+      className={`h-[8vh] w-full flex items-center justify-evenly bg-sky-600 fixed z-[999] transition-transform duration-300 `}
     >
       <div className="container w-[100px] text-white font-bold text-lg">
         <Link to="/">LOGO</Link>

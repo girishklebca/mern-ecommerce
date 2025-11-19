@@ -60,12 +60,10 @@ productRouter.post("/create", async (req, res) => {
       });
     }
 
-    const newTitle = title[0].toUpperCase() + title.substring(1, title.length);
-    const newCompany =
-      company[0].toUpperCase() + company.substring(1, company.length);
-    const newColor = color[0].toUpperCase() + color.substring(1, color.length);
-    const newCategory =
-      category[0].toUpperCase() + category.substring(1, category.length);
+    const newTitle = title[0].toUpperCase() + title.slice(1);
+    const newCompany = company[0].toUpperCase() + company.slice(1);
+    const newColor = color[0].toUpperCase() + color.slice(1);
+    const newCategory = category[0].toUpperCase() + category.slice(1);
 
     // const isExisting = await productModel.findOne({
     //   newTitle,
@@ -137,15 +135,13 @@ productRouter.post("/update", async (req, res) => {
     } = req.body;
     if (!title || !company) {
       console.log(`Title and company are required`);
-      return res.json({
+      return res.status(400).json({
         success: false,
         message: "❌ Title and company are required",
       });
     }
-    const checkTitle =
-      title[0].toUpperCase() + title.substring(1, title.length);
-    const checkCompany =
-      company[0].toUpperCase() + company.substring(1, company.length);
+    const checkTitle = title[0].toUpperCase() + title.slice(1);
+    const checkCompany = company[0].toUpperCase() + company.slice(1);
 
     const toUpdateProd = await productModel.findOne({
       title: checkTitle,
@@ -191,10 +187,8 @@ productRouter.delete("/delete", async (req, res) => {
       });
     }
 
-    const checkTitle =
-      title[0].toUpperCase() + title.substring(1, title.length);
-    const checkCompany =
-      company[0].toUpperCase() + company.substring(1, company.length);
+    const checkTitle = title[0].toUpperCase() + title.slice(1);
+    const checkCompany = company[0].toUpperCase() + company.slice(1);
 
     // Method 1: findOneAndDelete (recommended - one operation)
     const deletedProduct = await productModel.findOneAndDelete({
